@@ -1,23 +1,16 @@
 import './App.css';
-import React, { useEffect, useReducer, useState, useRef } from "react";
-import { FaStar } from "react-icons/fa"
+import React, { useEffect, useReducer, useState, useRef, createContext, useContext } from "react";
+import {useTrees} from "./index"
 
 function App() {
-  const [sound, setSound] = useState("")
-  const [color, setColor] = useState("#000000")
-
-  const submit = (e) => {
-    e.preventDefault();
-    alert(`${sound} sounds like ${color}`)
-    setSound("")
-    setColor("#000000")
-  }
+  const { trees } = useTrees();
   return (
-    <form onSubmit={submit}>
-      <input value={sound} type="text" placeholder='Sound...' onChange={(e) => setSound(e.target.value)}/>
-      <input value={color} type="color" onChange={(e) => setColor(e.target.value)} />
-      <button>ADD</button>
-    </form>
+    <div>
+      <h1>Trees I've Heard of</h1>
+      <ul>
+        {trees.map(tree => (<li key={tree.id}>{tree.type}</li>))}
+      </ul>
+    </div>
   )
 }
 
