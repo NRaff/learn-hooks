@@ -5,33 +5,32 @@ import { FaStar } from "react-icons/fa"
 
 
 function App() {
-  const [name, setName] = useState("Nick")
-  const [admin, setAdmin] = useState(false)
+  const [data, setData] = useState([])
 
   useEffect(() => {
-    console.log(`Celebrate ${name}`)
-  }, [name])
+    fetch(`https://api.github.com/users`)
+    .then(response => response.json())
+    .then(res => setData(res))
+  }, [])
 
-  useEffect(() => {
-    console.log(
-      `The user is: ${
-        admin ? "admin" : "not admin"
-      }.`
+  if(data) {
+    return (
+      <div>
+        <ul>
+          {data.map(user => <li key={user.id}>{user.login}</li>)}
+        </ul>
+        <button
+          onClick={() => setData([])}
+        >
+          Remove Data
+        </button>
+      </div>
     )
-  },[admin])
-
-  return (
-    <section>
-      <p>Congratulations {name}!</p>
-      <button
-        onClick={() => setName("Will")}
-      >Change Winner</button>
-      <p>{admin ? "logged in" : "not logged in"}</p>
-      <button
-        onClick={() => setAdmin(true)}
-      >Log in</button>
-    </section>
-  )
+  } else {
+    return (
+      <p>No Users</p>
+    )
+  }
 }
 
 export default App;
